@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const MobileNavBar = () => {
   const pathname = usePathname();
-console.log(pathname);
+
   return (
     <>
       <ul className="grid grid-cols-4  w-full fixed bottom-0 bg-white z-50 pt-2">

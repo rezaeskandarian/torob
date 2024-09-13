@@ -9,13 +9,14 @@ import { sp } from "@/lib/numbers";
 import { Button } from "@/components/ui/button";
 import { getFormattedJalaliDate } from "@/lib/datePersian";
 
-const Seller = ({ seller }: any) => {
+const Seller = ({ seller, mobile }: any) => {
   const [activeDiv, setActiveDiv] = useState<string>("iran");
   const [activeOnline, setActiveOnline] = useState<string>("online");
 
   const [openGuarantyBox, setOpenGuarantyBox] = useState<string | null>(null);
   const [openInfoBox, setOpenInfoBox] = useState<string | null>(null);
   // Ensure seller is defined and has the expected structure
+
   const lowestPrice = seller
     ? Math.min(
         ...seller.map((i: any) => i.attributes.product_price_seller).map(Number)
@@ -151,8 +152,12 @@ const Seller = ({ seller }: any) => {
         </div>
 
         {activeDiv === "iran" && (
-          <div className="flex mt-6  mr-5">
-            <ul className="flex ">
+          <div
+            className={`flex mt-6  mr-5  bg-white z-10 ${
+              mobile ? "sticky top-10" : "sticky top-0"
+            }`}
+          >
+            <ul className="flex  ">
               {onlineStorePrices.length > 0 && (
                 <li
                   className={`cursor-pointer mx-2  font-bold py-2 flex items-center h-fit   ${
@@ -203,10 +208,12 @@ const Seller = ({ seller }: any) => {
               return (
                 <div
                   key={sellerId}
-                  className="flex px-7 border-t justify-between hover:bg-light-gray group"
+                  className={`${
+                    mobile === false && "flex"
+                  } px-7 border-t justify-between hover:bg-light-gray group`}
                 >
                   <div className="py-2">
-                    <div className="flex w-full">
+                    <div className={` w-full ${mobile === false && "flex"} `}>
                       <div
                         className={`w-48 ${
                           i.attributes.seller.data.attributes.guaranty ===
@@ -227,10 +234,17 @@ const Seller = ({ seller }: any) => {
                           <span className="font-bold py-2">
                             {i.attributes.seller.data.attributes.name}
                           </span>
+                          {mobile && (
+                            <p className="text-sm mt-2 mr-2">
+                              {i.attributes.seller.data.attributes.city}
+                            </p>
+                          )}
                         </div>
-                        <p className="text-sm mt-2">
-                          {i.attributes.seller.data.attributes.city}
-                        </p>
+                        {mobile === false && (
+                          <p className="text-sm mt-2">
+                            {i.attributes.seller.data.attributes.city}
+                          </p>
+                        )}
                       </div>
                       <div className="mt-1 w-full ml-3">
                         <div className="flex">
@@ -285,7 +299,9 @@ const Seller = ({ seller }: any) => {
                               size={15}
                               className={` mx-1 justify-center    ${
                                 openInfoBox === sellerId
-                                  ? "rotate-180 mx-auto w-[200px]"
+                                  ? `rotate-180 mx-auto  ${
+                                      mobile ? "w-[130px]" : "w-[145px]"
+                                    }`
                                   : ""
                               }`}
                             />
@@ -318,13 +334,17 @@ const Seller = ({ seller }: any) => {
                             <div className="pt-2 pb-4">
                               <Button
                                 variant={"outline"}
-                                className="bg-inherit text-[13px] mx-1 hover:bg-inherit hover:text-white"
+                                className={`bg-inherit  mx-1 hover:bg-inherit hover:text-white ${
+                                  mobile ? "text-[11px]" : "text-[13px]"
+                                }`}
                               >
                                 شرایط استفاده از ضمانت
                               </Button>
                               <Button
                                 variant={"outline"}
-                                className="bg-inherit text-[13px] mx-1 hover:bg-inherit hover:text-white"
+                                className={`bg-inherit  mx-1 hover:bg-inherit hover:text-white ${
+                                  mobile ? "text-[11px]" : "text-[13px]"
+                                }`}
                               >
                                 {" "}
                                 ضمانت ترب چیست ؟
@@ -388,11 +408,15 @@ const Seller = ({ seller }: any) => {
                       </div>
                     </div>
                   </div>
-                  <div className="py-4">
+                  <div
+                    className={` ${
+                      mobile === true ? "flex mb-2 justify-between" : "py-4"
+                    } `}
+                  >
                     <p className="text-center text-red-torob py-2">
                       {sp(i.attributes.product_price_seller)} تومان
                     </p>
-                    <Button className="text-sm rounded-lg bg-red-torob hover:bg-red-torob">
+                    <Button className="text-sm rounded-lg bg-[#EA3F4F] hover:bg-red-torob">
                       خرید اینترنتی
                     </Button>
                   </div>

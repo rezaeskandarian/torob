@@ -46,7 +46,7 @@ const ImageGalleryProductCard = ({
   };
 
   return (
-    <div className="mb-10 relative group">
+    <div className="mb-10 relative group ">
       <div className="absolute flex bg-[#999999] items-center px-1 py-[2px] rounded group-hover:opacity-0">
         <Camera
           size={16}
@@ -69,7 +69,7 @@ const ImageGalleryProductCard = ({
           width={200}
           height={200}
           alt={"product Image"}
-          className={`w-auto h-auto transition-opacity duration-500 ease-in-out ${
+          className={`w-auto h-auto transition-opacity duration-500 ease-in-out mx-auto ${
             fade ? "opacity-0" : "opacity-100"
           }`}
           key={mainImage}

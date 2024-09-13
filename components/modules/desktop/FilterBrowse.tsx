@@ -9,9 +9,9 @@ const FilterBrowse = () => {
   return (
     <div className="items-center mb-4 mt-2">
       <div className="items-center flex">
-        <CustomSwitchLocation />
-        <CustomCheckBox />
-        <CustomSwitchAvailable />
+        <CustomSwitchLocation mobile={false} />
+        <CustomCheckBox mobile={false} />
+        <CustomSwitchAvailable mobile={false} />
         <CustomMegaMenuItem />
       </div>
     </div>

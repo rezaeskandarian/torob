@@ -4,10 +4,12 @@ import "./globals.css";
 import { iranYekan } from "@/constants/font";
 import Providers from "@/redux/provider";
 import OfflineNotification from "@/components/modules/desktop/OfflineNotification";
+
+import NextLoader from "nextjs-rtl-loader";
 import { headers } from "next/headers";
 import { isMobile } from "@/lib/isMobile";
 import MobileNavBar from "@/components/layouts/mobile/MobileNavBar";
-import NextLoader from "nextjs-rtl-loader";
+
 
 const font = iranYekan;
 
@@ -18,11 +20,7 @@ export const metadata: Metadata = {
   generator: "Next.js",
   manifest: "/manifest.json",
   keywords: ["nextjs", "next14", "pwa", "next-pwa"],
- 
-
-
 };
-
 
 export const viewport = {
   minimumScale: 1,
@@ -41,21 +39,24 @@ export default function RootLayout({
 
   const mobileCheck = isMobile(userAgent);
 
-
   return (
     <html lang="fa" dir="rtl">
       <body className={font.className}>
+      {mobileCheck && <MobileNavBar />}
         <Providers>
+        
           <NextLoader
             color="#BF0F22"
             height="3px"
             speed={300}
             easing="ease"
-
             showSpinner={false}
           />
+
           {children}
-          {mobileCheck && <MobileNavBar />}
+          
+           
+         
           <OfflineNotification />
         </Providers>
       </body>

@@ -11,11 +11,11 @@ function getFormattedJalaliDate(date: string): string {
   const daysDifference = now.getDate() - inputDate.getDate();
 
   if (yearsDifference > 0) {
-    return `${e2p(yearsDifference) } سال و ${e2p(Math.abs(monthsDifference))} ماه پیش`;
+    return `${e2p(yearsDifference) } سال  `;
   } else if (monthsDifference > 0) {
-    return `${e2p(monthsDifference)} ماه و ${e2p(Math.abs(daysDifference))} روز پیش`;
+    return `${e2p(monthsDifference)} ماه  `;
   } else {
-    return `${e2p(daysDifference)} روز پیش`;
+    return `${e2p(daysDifference)} روز `;
   }
 }
 

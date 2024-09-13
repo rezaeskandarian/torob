@@ -14,6 +14,8 @@ async function handleCategoryRedirect(
   getCategory: (id: string) => Promise<any>,
   basePath: string
 ) {
+
+
   const nameCategory = await getCategory(id);
 
   if (nameCategory.data === null && !url.pathname.includes(`${basePath}/1`)) {
@@ -56,20 +58,17 @@ async function handleCategoryRedirect(
 export async function middleware(req: Request) {
   const url = new URL(req.url);
   const id = url.pathname.split("/")[3];
- 
+
   const categoryName = url.pathname.split("/")[4];
- 
+
   const pathname = url.pathname;
 
   if (!pathname.startsWith("/browse")) {
     return NextResponse.next();
   }
 
-
   if (pathname === "/browse") {
-     return NextResponse.redirect(
-      new URL(`/browse/main/1/`, req.url)
-    );
+    return NextResponse.redirect(new URL(`/browse/main/1/`, req.url));
   }
   if (pathname.startsWith("/browse/main")) {
     return handleCategoryRedirect(
@@ -103,9 +102,6 @@ export async function middleware(req: Request) {
       "/browse/sub"
     );
   }
-
- 
-
 
   return NextResponse.next();
 }

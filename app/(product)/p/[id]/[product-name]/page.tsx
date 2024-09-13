@@ -17,15 +17,8 @@ const Product = async ({ params }: ProductProps) => {
   if (product.error?.status === 404) {
     notFound();
   }
-  const userAgent = headers().get("user-agent") || "";
 
-  const mobileCheck = isMobile(userAgent);
-
-  return mobileCheck ? (
-    <div>mobile product</div>
-  ) : (
-    <ProductPage detailProduct={product.data} seller={seller} />
-  );
+  return <ProductPage detailProduct={product.data} seller={seller} />;
 };
 
 export default Product;

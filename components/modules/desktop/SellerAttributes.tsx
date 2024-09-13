@@ -5,7 +5,7 @@ import Seller from "./Seller";
 import { LineChart } from "lucide-react";
 import AttributesProduct from "./attributesProduct";
 
-const SellerAttributes = ({ keymain, keysub , seller }: any) => {
+const SellerAttributes = ({ keymain, keysub , seller , mobile }: any) => {
   const sellerRef = useRef<HTMLDivElement>(null);
   const attributesRef = useRef<HTMLDivElement>(null);
   const [sellerHeight, setSellerHeight] = useState(0);
@@ -37,9 +37,9 @@ const SellerAttributes = ({ keymain, keysub , seller }: any) => {
     <>
       <div
         ref={sellerRef}
-        className="rounded-sm col-span-3 md:col-span-3 lg:col-span-4 xl:col-span-4"
+        className={`rounded-sm ${mobile === false ? "col-span-3 md:col-span-3 lg:col-span-4 xl:col-span-4" : "col-span-6"} `}
       >
-        <Seller seller={seller} />
+        <Seller seller={seller} mobile={mobile} />
         <div className="xs:block md:block xl:hidden lg:block my-3">
           <LineChart />
         </div>
@@ -47,7 +47,7 @@ const SellerAttributes = ({ keymain, keysub , seller }: any) => {
 
       <div
         ref={attributesRef}
-        className="bg-white rounded-sm col-span-3 md:col-span-3 lg:col-span-2 xl:col-span-2 overflow-auto custom-overflow"
+        className={`bg-white rounded-sm ${mobile === false ? "col-span-3 md:col-span-3 lg:col-span-2 xl:col-span-2 overflow-auto" : "col-span-6"}   custom-overflow`}
       >
         <AttributesProduct keymain={keymain} keysub={keysub} />
       </div>

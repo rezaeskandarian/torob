@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+
+import { useState } from "react";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CategoryAttributes {
   name: string;
@@ -24,7 +26,7 @@ const CategoriesPage = ({ category }: { category: Category[] }) => {
   const [midSelected, setMidSelected] = useState<Category | null>(null);
   const [subSelected, setSubSelected] = useState<Category | null>(null);
 
-  const handleMainCategory = (id : number) => {
+  const handleMainCategory = (id: number) => {
     setMainSelected(id);
     setMidSelected(category[id - 1]);
   };
@@ -35,7 +37,7 @@ const CategoriesPage = ({ category }: { category: Category[] }) => {
       setMidSelected(null);
     }
   };
-  console.log(subSelected);
+
   const renderMain = () => {
     return (
       <>
@@ -59,25 +61,31 @@ const CategoriesPage = ({ category }: { category: Category[] }) => {
       </>
     );
   };
-  console.log(midSelected);
-  console.log(mainSelected);
+
   const handleBackMid = () => {
     setMainSelected(null);
   };
+  console.log(midSelected);
+  console.log(mainSelected);
   const renderMid = () => {
     return (
       <>
         <div className="sticky top-0 z-50  w-full    border-b bg-white py-4 font-bold flex items-center">
-        <ChevronRight size={18} className="mr-5 items-center absolute " onClick={handleBackMid} />
-          
-            
-            <p className="text-center mx-auto  ">
-              {midSelected?.attributes.name}
-            </p>
-       
+          <ChevronRight
+            size={18}
+            className="mr-5 items-center absolute "
+            onClick={handleBackMid}
+          />
+
+          <p className="text-center mx-auto  ">
+            {midSelected?.attributes.name}
+          </p>
         </div>
         <div className=" mr-5  ml-2 border-b py-[15px]">
-          <Link href={"/"} className="font-bold text-sm">
+          <Link
+            href={`/browse/main/${midSelected?.id}`}
+            className="font-bold text-sm"
+          >
             نمایش تمام کالاهای {midSelected?.attributes.name}
           </Link>
         </div>
@@ -98,30 +106,32 @@ const CategoriesPage = ({ category }: { category: Category[] }) => {
     );
   };
 
-console.log(mainSelected);
-console.log(midSelected)
-console.log(subSelected)
-const handleBackSub = () => {
-  setSubSelected(null);
-  if (mainSelected !== null) {
-    handleMainCategory(mainSelected);
-  }
-};
+  const handleBackSub = () => {
+    setSubSelected(null);
+    if (mainSelected !== null) {
+      handleMainCategory(mainSelected);
+    }
+  };
   const renderSub = () => {
     return (
       <>
         <div className="sticky top-0 z-50  w-full    border-b bg-white py-4 font-bold flex items-center">
-        <ChevronRight size={18} className="mr-5 items-center absolute " onClick={handleBackSub} />
-          
-            
-            <p className="text-center mx-auto  ">
-              {subSelected?.attributes.name}
-            </p>
-       
+          <ChevronRight
+            size={18}
+            className="mr-5 items-center absolute "
+            onClick={handleBackSub}
+          />
+
+          <p className="text-center mx-auto  ">
+            {subSelected?.attributes.name}
+          </p>
         </div>
 
         <div className=" mr-5  ml-2  border-b py-[15px]">
-          <Link href={"/"} className="font-bold text-sm">
+          <Link
+            href={`/browse/mid/${subSelected?.id}`}
+            className="font-bold text-sm"
+          >
             نمایش تمام کالاهای {subSelected?.attributes.name}
           </Link>
         </div>
@@ -133,7 +143,9 @@ const handleBackSub = () => {
                 className="flex justify-between mr-5  ml-2  border-b py-[15px] "
                 onClick={() => handleMidCategory(i.id)}
               >
-                <p className="text-sm">{i.attributes.name}</p>
+                <Link href={`/browse/sub/${i.id}`} className="text-sm">
+                  {i.attributes.name}
+                </Link>
               </div>
             </div>
           </>

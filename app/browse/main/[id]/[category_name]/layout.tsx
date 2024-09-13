@@ -1,5 +1,7 @@
+import { isMobile } from "@/lib/isMobile";
 import { getSingleMainCategory } from "@/service/getCategory";
-import { lazy, Suspense } from "react";
+import { headers } from "next/headers";
+import { lazy } from "react";
 const SideBarProduct = lazy(
   () => import("@/components/layouts/desktop/SideBarProduct")
 );
@@ -41,17 +43,21 @@ export default async function RootLayout({
   const nameCategory = await getSingleMainCategory(params.id);
   const sideBarCategory = nameCategory.data?.attributes.mid_categories || [];
   const headSideBarCategory = nameCategory.data?.attributes.name || "";
+
+  const userAgent = headers().get("user-agent") || "";
+
+  const mobileCheck = isMobile(userAgent);
   return (
     <div className="flex">
-      
+      {mobileCheck === false && (
         <SideBarProduct
           category={sideBarCategory}
           headCategory={headSideBarCategory}
           link={"mid"}
         />
-      
+      )}
 
-      <Suspense fallback={<div>Loading content...</div>}>{children}</Suspense>
+      {children}
     </div>
   );
 }

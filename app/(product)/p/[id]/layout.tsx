@@ -1,5 +1,7 @@
 import MainHeader from "@/components/layouts/desktop/MainHeader";
+import { isMobile } from "@/lib/isMobile";
 import { getProduct } from "@/service/products";
+import { headers } from "next/headers";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const product = await getProduct(params.id);
@@ -22,9 +24,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const userAgent = headers().get("user-agent") || "";
+
+  const mobileCheck = isMobile(userAgent);
   return (
     <>
-      <MainHeader />
+      {mobileCheck === false && <MainHeader />}
       {children}
     </>
   );

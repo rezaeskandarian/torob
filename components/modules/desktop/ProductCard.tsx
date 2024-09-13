@@ -1,6 +1,6 @@
 "use client";
 import { e2p, sp } from "@/lib/numbers";
-import { Bell, Heart, MapPin } from "lucide-react";
+import { ArrowRight, Bell, Heart, MapPin } from "lucide-react";
 import ImageGalleryProductCard from "./ImageGalleryProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -16,15 +16,16 @@ import {
 } from "@/redux/features/product/productSlice";
 import { AppDispatch } from "@/redux/store";
 import { Skeleton } from "@/components/ui/skeleton";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 type ProductCardProps = {
   paramsId: string;
   QSearch: string;
+  mobile: boolean;
 };
 
-const ProductCard = ({ paramsId, QSearch }: ProductCardProps) => {
+const ProductCard = ({ paramsId, QSearch, mobile }: ProductCardProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const pathname = usePathname();
 
@@ -65,7 +66,11 @@ const ProductCard = ({ paramsId, QSearch }: ProductCardProps) => {
 
   if (loading) {
     return (
-      <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
+      <div
+        className={`grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 ${
+          mobile && "mx-3 pt-28 mb-44"
+        }`}
+      >
         {[...Array(12)].map((_, index) => (
           <div
             key={index}
@@ -103,68 +108,74 @@ const ProductCard = ({ paramsId, QSearch }: ProductCardProps) => {
   }
 
   return (
-    <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
-      {products?.data?.map((product: any) => {
-        const { name, stock_status, location, price, prices, image } =
-          product.attributes;
+    <>
+      <div
+        className={`grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 ${
+          mobile && "mx-3 pt-28 mb-44"
+        }`}
+      >
+        {products?.data?.map((product: any) => {
+          const { name, stock_status, location, price, prices, image } =
+            product.attributes;
 
-        return (
-          <div
-            className="bg-white rounded-md p-2 flex flex-col justify-between"
-            key={product.id}
-          >
-            <div>
-              <ImageGalleryProductCard image={image} />
-            </div>
-            <Link href={`/p/${product.id}`} key={product.id}>
+          return (
+            <div
+              className="bg-white rounded-md p-2 flex flex-col justify-between"
+              key={product.id}
+            >
               <div>
-                <p className="text-sm line-clamp-3 font-bold">{name}</p>
+                <ImageGalleryProductCard image={image} />
               </div>
-              {/* Location and Stock Status */}
-              <div className="flex mt-2 mb-11">
-                {location && (
-                  <div className="flex items-center bg-medium-gray w-fit rounded-sm py-1 px-[4px] ml-1">
-                    <MapPin
-                      size={16}
-                      className="text-white mx-1"
-                      fill="#3468CC"
-                    />
-                    <span className="text-xs">{location}</span>
-                  </div>
-                )}
+              <Link prefetch href={`/p/${product.id}`} key={product.id}>
+                <div>
+                  <p className="text-sm line-clamp-3 font-bold">{name}</p>
+                </div>
+                {/* Location and Stock Status */}
+                <div className="flex mt-2 mb-11">
+                  {location && (
+                    <div className="flex items-center bg-medium-gray w-fit rounded-sm py-1 px-[4px] ml-1">
+                      <MapPin
+                        size={16}
+                        className="text-white mx-1"
+                        fill="#3468CC"
+                      />
+                      <span className="text-xs">{location}</span>
+                    </div>
+                  )}
 
-                {stock_status === "stock" && (
-                  <div className="flex items-center bg-medium-gray w-fit rounded-sm py-1 px-[4px] ml-1">
-                    <span className="text-xs">کارکرده</span>
-                  </div>
-                )}
-              </div>
+                  {stock_status === "stock" && (
+                    <div className="flex items-center bg-medium-gray w-fit rounded-sm py-1 px-[4px] ml-1">
+                      <span className="text-xs">کارکرده</span>
+                    </div>
+                  )}
+                </div>
 
-              {/* Price and Store Information */}
-              <div className="mt-auto">
-                <p className="text-sm font-bold py-1">از {sp(price)} تومان</p>
+                {/* Price and Store Information */}
+                <div className="mt-auto">
+                  <p className="text-sm font-bold py-1">از {sp(price)} تومان</p>
 
-                <div className="flex items-center justify-between my-2">
-                  <div className="text-xs text-gray-600 font-semibold">
-                    در {e2p(prices.data.length)} فروشگاه
-                  </div>
-                  <div className="flex">
-                    <Heart
-                      size={16}
-                      className="text-gray-600 mx-1 cursor-pointer"
-                    />
-                    <Bell
-                      size={16}
-                      className="text-gray-600 mx-1 cursor-pointer"
-                    />
+                  <div className="flex items-center justify-between my-2">
+                    <div className="text-xs text-gray-600 font-semibold">
+                      در {e2p(prices.data.length)} فروشگاه
+                    </div>
+                    <div className="flex">
+                      <Heart
+                        size={16}
+                        className="text-gray-600 mx-1 cursor-pointer"
+                      />
+                      <Bell
+                        size={16}
+                        className="text-gray-600 mx-1 cursor-pointer"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          </div>
-        );
-      })}
-    </div>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 };
 

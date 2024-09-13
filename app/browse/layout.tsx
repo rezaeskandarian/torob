@@ -1,6 +1,8 @@
 import MainHeader from "@/components/layouts/desktop/MainHeader";
+import { isMobile } from "@/lib/isMobile";
 
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "محصولات ",
@@ -13,9 +15,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const userAgent = headers().get("user-agent") || "";
+
+  const mobileCheck = isMobile(userAgent);
   return (
     <>
-      <MainHeader />
+      {mobileCheck === false && <MainHeader />}
 
       {children}
     </>

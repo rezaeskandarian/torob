@@ -2,24 +2,32 @@ import { Button } from "@/components/ui/button";
 import { sp } from "@/lib/numbers";
 import { Bell, ChevronDown, Flag, Heart, Share2 } from "lucide-react";
 
-const DescribeProduct = ({ name, lowestPrice }: any) => {
-  
+const DescribeProduct = ({ name, lowestPrice, mobile }: any) => {
   return (
-    <div className=" line-clamp-3 px-5 justify-center items-center  h-full flex">
+    <div className=" px-5 justify-center items-center  h-full flex">
       <div className="">
-        <p className="font-semibold block py-3">{name}</p>
+        <p className="font-semibold block py-3 line-clamp-3">{name}</p>
         <div className="justify-between flex items-center py-4">
-          <div className="flex items-center"> {sp(lowestPrice.length)} فروشنده دیگر  <ChevronDown size={16} className="mx-1" /></div>
           <div className="flex items-center">
-            <div className="px-3  text-gray-600 cursor-pointer">
-              <Bell />
-            </div>
-            <div className="px-3 text-gray-600 cursor-pointer">
-              <Heart />
-            </div>
-            <div className="px-3 text-gray-600 cursor-pointer">
-              <Share2 />
-            </div>
+            {" "}
+            {sp(lowestPrice.length)} فروشنده دیگر{" "}
+            <ChevronDown size={16} className="mx-1" />
+          </div>
+          <div className="flex items-center">
+            {mobile === false && (
+              <>
+                <div className="px-3  text-gray-600 cursor-pointer">
+                  <Bell />
+                </div>
+                <div className="px-3 text-gray-600 cursor-pointer">
+                  <Heart />
+                </div>
+                <div className="px-3 text-gray-600 cursor-pointer">
+                  <Share2 />
+                </div>
+              </>
+            )}
+
             <Button
               variant={"secondary"}
               size={"sm"}

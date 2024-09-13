@@ -23,9 +23,10 @@ type ImageProps = {
 
 type ImageGalleryProps = {
   images: ImageProps[];
+  mobile: boolean;
 };
 
-const ImageGallery = ({ images }: ImageGalleryProps) => {
+const ImageGallery = ({ images, mobile }: ImageGalleryProps) => {
   const [mainImage, setMainImage] = useState(images[0].attributes.url);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -70,45 +71,71 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
     setMainImage(images[newIndex].attributes.url);
   };
 
-
   return (
     <>
-      <div className="flex my-3 h-[370px]">
-        {images.length !== 1 && (
-          <div className="w-1/4 pr-4 flex flex-col">
-            {images.slice(0, 3).map((image, index) => (
+      {mobile === false ? (
+        <>
+          <div className="flex my-3 h-[370px]">
+            {images.length !== 1 && (
+              <div className="w-1/4 pr-4 flex flex-col">
+                {images.slice(0, 3).map((image, index) => (
+                  <Image
+                    key={image.id}
+                    src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${image.attributes.formats.thumbnail.url}`}
+                    alt="عکس محصولات"
+                    width={200}
+                    height={200}
+                    className="cursor-pointer mb-4 border rounded-sm p-1"
+                    onClick={() => handleClick(image.attributes.url, index)}
+                  />
+                ))}
+                {images.length > 3 && (
+                  <div
+                    className="border rounded-sm text-center py-5 px-5 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    {e2p(images.length - 3)}+
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div
+              className={
+                images.length === 1
+                  ? "w-4/4  flex items-center justify-center border rounded-sm h-full mx-3  "
+                  : "w-3/4 mr-2 mx-auto flex items-center justify-center border rounded-sm h-full "
+              }
+            >
+              <Image
+                src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${mainImage}`}
+                alt=""
+                width={350}
+                height={350}
+                className="cursor-pointer mb-4 p-1 mx-auto justify-center items-center "
+                onClick={() => setIsModalOpen(true)}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="overflow-x-auto flex mt-4 py-2 h-36 w-full justify-between  ">
+            {images.map((image, index) => (
               <Image
                 key={image.id}
                 src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${image.attributes.formats.thumbnail.url}`}
-                alt=""
-                width={200}
-                height={200}
-                className="cursor-pointer mb-4 border rounded-sm p-1"
+                alt="عکس محصولات"
+                width={600}
+                height={600}
+                className="cursor-pointer mb-4  rounded-sm mx-2  w-fit"
                 onClick={() => handleClick(image.attributes.url, index)}
               />
             ))}
-            {images.length > 3 && (
-              <div
-                className="border rounded-sm text-center py-5 px-5 hover:bg-gray-100 cursor-pointer"
-                onClick={() => setIsModalOpen(true)}
-              >
-                {e2p(images.length - 3)}+
-              </div>
-            )}
           </div>
-        )}
+        </>
+      )}
 
-        <div   className={images.length === 1 ? "w-4/4  flex items-center justify-center border rounded-sm h-full mx-3  " : "w-3/4 mr-2 mx-auto flex items-center justify-center border rounded-sm h-full " }>
-          <Image
-            src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${mainImage}`}
-            alt=""
-            width={350}
-            height={350}
-            className="cursor-pointer mb-4 p-1 mx-auto justify-center items-center "
-            onClick={() => setIsModalOpen(true)}
-          />
-        </div>
-      </div>
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
@@ -123,7 +150,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
             </Button>
             <div className="flex items-center justify-center">
               <Button onClick={prevImage} className=" bg-red-torob px-4   mx-2">
-              <ChevronRight size={17} />
+                <ChevronRight size={17} />
               </Button>
               <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${mainImage}`}
@@ -133,10 +160,10 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 className="mb-4 p-1"
               />
               <Button onClick={nextImage} className=" bg-red-torob px-4  mx-2">
-              <ChevronLeft size={17} />
+                <ChevronLeft size={17} />
               </Button>
             </div>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-4 overflow-x-auto">
               {images.map((image, index) => (
                 <Image
                   key={image.id}

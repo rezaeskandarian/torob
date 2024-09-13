@@ -1,9 +1,11 @@
 import SideBarProduct from "@/components/layouts/desktop/SideBarProduct";
+import { isMobile } from "@/lib/isMobile";
 import {
   getSingleMidCategory,
   getSingleSubCategory,
   getSubPopulateMid,
 } from "@/service/getCategory";
+import { headers } from "next/headers";
 
 type ProductBrowseProps = {
   params: {
@@ -47,14 +49,22 @@ export default async function RootLayout({
   );
   const sideBarCategory = midCategory.data.attributes.sub_categories;
   const headSideBarCategory = midCategory.data.attributes.name;
+
+  const userAgent = headers().get("user-agent") || "";
+
+  const mobileCheck = isMobile(userAgent);
+
   return (
     <>
       <div className="flex">
-        <SideBarProduct
-          category={sideBarCategory}
-          headCategory={headSideBarCategory}
-          link={"sub"}
-        />
+        {mobileCheck === false && (
+          <SideBarProduct
+            category={sideBarCategory}
+            headCategory={headSideBarCategory}
+            link={"sub"}
+          />
+        )}
+
         {children}
       </div>
     </>

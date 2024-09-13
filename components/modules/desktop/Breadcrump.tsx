@@ -33,14 +33,14 @@ const Breadcrump = ({ sub, mid, main, idSub }: BreadcrumpProps) => {
   }, [pathname, dispatch, idSub]);
 
   return (
-    <div className="flex items-center py-4">
+    <div className="flex items-center py-4 mx-1  ">
       <Link href={"/"} className="text-xs px-1" prefetch>
         ترب
       </Link>
       {main && (
         <Link
           href={`/browse/main/${selector.mainId}`}
-          className="text-gray-500 text-xs   flex items-center"
+          className="text-gray-500 text-xs flex   items-center "
           prefetch
         >
           <ChevronLeft size={12} className="" />
@@ -50,7 +50,7 @@ const Breadcrump = ({ sub, mid, main, idSub }: BreadcrumpProps) => {
       {mid && (
         <Link
           href={`/browse/mid/${selector.midId}`}
-          className="text-gray-500 text-xs   flex items-center "
+          className="text-gray-500 text-xs flex    items-center "
           prefetch
         >
           <ChevronLeft size={12} className="" />
@@ -60,7 +60,7 @@ const Breadcrump = ({ sub, mid, main, idSub }: BreadcrumpProps) => {
       {sub && (
         <Link
           href={`/browse/sub/${selector.subId}`}
-          className="text-gray-500 text-xs   flex items-center "
+          className="text-gray-500 text-xs flex    items-center  "
           prefetch
         >
           <ChevronLeft size={12} className="" />
