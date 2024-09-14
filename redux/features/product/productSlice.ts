@@ -72,7 +72,6 @@ export const fetchIdCategory = createAsyncThunk(
       paramsId = state.products.params;
       result = await getIdCategory(paramsId, page);
     }
-   
 
     return result;
   }
